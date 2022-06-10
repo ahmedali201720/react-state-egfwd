@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import Question from "./Question";
 
 const value1 = Math.floor(Math.random() * 100);
 const value2 = Math.floor(Math.random() * 100);

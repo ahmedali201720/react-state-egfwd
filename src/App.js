@@ -1,15 +1,32 @@
+import { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Question from "./Question";
+import Answer from "./Answer";
+import Score from "./Score";
 
 const value1 = Math.floor(Math.random() * 100);
 const value2 = Math.floor(Math.random() * 100);
 const value3 = Math.floor(Math.random() * 100);
 const proposedAnswer = Math.floor(Math.random() * 3) + value1 + value2 + value3;
-const numQuestions = 0;
-const numCorrect = 0;
 
 function App() {
+  const [currentState, setNewState] = useState({
+    numCorrect: 0,
+    numQuestions: 0,
+  });
+
+  const handleQuestionAnswer = (answer) => {
+    const answerState =
+      value1 + value2 + value3 === proposedAnswer ? "true" : "false";
+    if (answerState === answer) {
+      setNewState((current) => ({
+        numCorrect: current.numCorrect + 1,
+        numQuestions: current.numQuestions + 1,
+      }));
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,14 +35,17 @@ function App() {
       </header>
       <div className="game">
         <h2>Mental Math</h2>
-        <div className="equation">
-          <p className="text">{`${value1} + ${value2} + ${value3} = ${proposedAnswer}`}</p>
-        </div>
-        <button>True</button>
-        <button>False</button>
-        <p className="text">
-          Your Score: {numCorrect}/{numQuestions}
-        </p>
+        <Question
+          value1={value1}
+          value2={value2}
+          value3={value3}
+          proposedAnswer={proposedAnswer}
+        />
+        <Answer handleAnswer={handleQuestionAnswer} />
+        <Score
+          numCorrect={currentState.numCorrect}
+          numQuestions={currentState.numQuestions}
+        />
       </div>
     </div>
   );
